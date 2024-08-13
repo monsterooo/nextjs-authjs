@@ -4,9 +4,21 @@ import GitHub from "next-auth/providers/github";
 
 export const providers: Provider[] = [GitHub];
 
+export const providerMap = providers.map((provider) => {
+  if (typeof provider === "function") {
+    const providerData = provider();
+    return { id: providerData.id, name: providerData.name };
+  } else {
+    return { id: provider.id, name: provider.name };
+  }
+});
+
 export const authConfig = {
   providers,
   session: { strategy: "jwt" }, // Use JWT strategy for edge functions
+  pages: {
+    signIn: "/signin",
+  },
   callbacks: {
     jwt: ({ token, user, trigger }) => {
       // Save id to JWT

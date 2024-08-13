@@ -55,7 +55,7 @@ export default async function Home() {
           <form
             action={async () => {
               "use server";
-              await signIn("github");
+              await signIn("github", { redirectTo: "/" });
             }}
           >
             <Button type="submit" className="flex gap-2 text-base">
